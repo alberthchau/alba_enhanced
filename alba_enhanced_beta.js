@@ -22,6 +22,10 @@
         #addresses > tr {
             outline: 1px solid #000 !important;
         }
+        span.where {
+            display: block !important;
+            margin-top: 4px !important;
+        }
     `;
   document.head.appendChild(styleTag);
 
