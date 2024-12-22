@@ -14,10 +14,13 @@
   styleTag.id = "de-emphasis-styles";
   styleTag.textContent = `
         .de-emphasize-opacity {
-            opacity: 0.6 !important;
+            opacity: 0.35 !important;
         }
         .strike-through {
             text-decoration: line-through !important;
+        }
+        #addresses > tr {
+            outline: 1px solid #000 !important;
         }
     `;
   document.head.appendChild(styleTag);
@@ -60,7 +63,6 @@
       if (successLabel || orangeSpansCount >= 2) {
         row.classList.add("de-emphasize-opacity");
 
-        // Add strike-through to address spans in completed rows
         const addressSpans = row.querySelectorAll("span.where");
         addressSpans.forEach((span) => {
           span.classList.add("strike-through");
