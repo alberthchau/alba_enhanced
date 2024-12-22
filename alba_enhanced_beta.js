@@ -10,12 +10,14 @@
 (function () {
   "use strict";
 
-  // Add CSS styles for de-emphasis
   const styleTag = document.createElement("style");
   styleTag.id = "de-emphasis-styles";
   styleTag.textContent = `
         .de-emphasize-opacity {
             opacity: 0.6 !important;
+        }
+        .strike-through {
+            text-decoration: line-through !important;
         }
     `;
   document.head.appendChild(styleTag);
@@ -43,11 +45,7 @@
     console.log("Processing " + adRows.length + " ad rows");
 
     adRows.forEach(function (row) {
-      // Check for success label
       const successLabel = row.querySelector("span.label.label-success");
-      console.log(`Row ${row.id} - Has success label: ${!!successLabel}`);
-
-      // Check for orange background spans
       const mutedSpans = row.querySelectorAll("span.label.muted");
       let orangeSpansCount = 0;
 
@@ -56,16 +54,17 @@
         const bgColor = span.style.backgroundColor || computedStyle.backgroundColor;
         if (bgColor === "rgb(247, 112, 0)" || bgColor === "#f77000") {
           orangeSpansCount++;
-          console.log(`Found orange span in row ${row.id} (count: ${orangeSpansCount})`);
         }
       });
 
-      // If EITHER condition is met (has success label OR two or more orange spans)
       if (successLabel || orangeSpansCount >= 2) {
-        console.log(`Applying de-emphasis to row ${row.id} - ` + `Success label: ${!!successLabel}, Orange spans: ${orangeSpansCount}`);
         row.classList.add("de-emphasize-opacity");
-      } else {
-        console.log(`Conditions not met for row ${row.id} - ` + `Success label: ${!!successLabel}, Orange spans: ${orangeSpansCount}`);
+
+        // Add strike-through to address spans in completed rows
+        const addressSpans = row.querySelectorAll("span.where");
+        addressSpans.forEach((span) => {
+          span.classList.add("strike-through");
+        });
       }
     });
   }
@@ -76,10 +75,8 @@
     setTimeout(deEmphasizeCompletedRows, 100);
   }
 
-  // Run the script initially with a delay to ensure page is loaded
   setTimeout(applyAllEnhancements, 500);
 
-  // Watch for changes to the page and reapply the script
   var observer = new MutationObserver(function (mutations) {
     mutations.forEach(function () {
       applyAllEnhancements();
