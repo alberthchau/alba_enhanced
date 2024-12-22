@@ -25,6 +25,7 @@
         span.where {
             display: block !important;
             margin-top: 4px !important;
+            font-weight: bold !important;
         }
     `;
   document.head.appendChild(styleTag);
